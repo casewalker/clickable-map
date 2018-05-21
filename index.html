@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>US Map Demo</title>
+
+	<!-- Ideas and tools used from: -->
+	<!--  * https://newsignature.github.io/us-map/#about -->
+	<!--  * http://bl.ocks.org/NPashaP/a74faf20b492ad377312 -->
+	
+	<style>
+	  #tooltip {   
+		position: absolute;           
+		text-align: center;
+		padding: 20px;             
+		margin: 10px;
+		font: 12px sans-serif;        
+		background: lightsteelblue;   
+		border: 1px;      
+		border-radius: 2px;           
+		pointer-events: none;
+		z-index: 1;       
+	}
+	#tooltip h4{
+		margin:0;
+		font-size:14px;
+	}
+	#tooltip {
+		background:rgba(0,0,0,0.9);
+		border:1px solid grey;
+		border-radius:5px;
+		font-size:12px;
+		width:auto;
+		padding:4px;
+		color:white;
+		opacity:0;
+	}
+	#tooltip table {
+		table-layout:fixed;
+	}
+	#tooltip tr td {
+		padding:0;
+		margin:0;
+	}
+	#tooltip tr td:nth-child(1) {
+		width:50px;
+	}
+	#tooltip tr td:nth-child(2) {
+		text-align:center;
+	}
+
+	.stateClicked {
+		fill: 'teal',
+	    "stroke-width": 2,
+	    opacity: 1
+	}
+	</style>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="lib/raphael.js"></script>
+	<script src="lib/jquery.usmap.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	
+	<script>
+
+	$(document).ready(function() {
+
+	  $('#map').usmap({
+
+	  	// Externalized function to create html content string in tooltip div.
+	  	'toolTipHtml': function(stateData) {
+			return "<h4>" + stateData.fullName + "</h4><table>"+
+				"<tr><td>Low</td><td>" + 'butts1' + "</td></tr>"+
+				"<tr><td>Average</td><td>" + 'butts2' + "</td></tr>"+
+				"<tr><td>High</td><td>" + 'butts3' + "</td></tr>"+
+				"</table>";
+	  	},
+
+	  	// State default styles
+	    'stateStyles': {
+	      fill: '#cccccc', 
+	      "stroke-width": 0,
+	      'stroke' : '#fff',
+	      opacity: 1
+	    },
+
+	    // State hover styles
+	    'stateHoverStyles': {
+	      fill: 'teal',
+	      "stroke-width": 2,
+	      opacity: 0.5
+	    },
+
+	    // Make DC hover outline teal, otherwise it just turns all white
+	    'stateSpecificHoverStyles': {
+	    	'DC': {'stroke': 'teal'}
+	    },
+
+	    // Northeast state labels (like 'NJ', 'CT', 'RD', etc.) default styles
+	    'labelBackingStyles': {
+	    	fill: '#c0c0c0',
+	    	"stroke-width": 0,
+	    	'stroke' : '#fff',
+	    	opacity: 1
+	    },
+
+	    // State labels default radius style (rounded corners looks bad)
+	    'labelRadius': 0,
+
+	    // State labels default text styles
+	    'labelTextStyles': {
+	    	'font-weight': 600,
+	    	'font-size': 10,
+	    	'fill': '#fff'
+	    },
+
+	    // State labels default hover styles
+	    'labelBackingHoverStyles': {
+	    	"stroke-width": 1,
+	    	'fill': 'teal',
+	    	opacity: 0.6
+	    },
+
+	    // CUSTOM - Add click styles
+	    'stateClickStyles': {
+	    	fill: 'teal',
+	    	"stroke-width": 3,
+	    	opacity: 1
+	    },
+	    // CUSTOM - Allow a specific style for DC
+	    'stateSpecificClickStyles': {
+	    	'DC': {'stroke': 'teal'}
+	    },
+	    // CUSTOM - Add click styles for labels too
+	    'labelBackingClickStyles': {
+	    	"stroke-width": 1,
+	    	'fill': 'teal',
+	    	opacity: 1
+	    },
+
+	    // How long it takes for the hover-color to fade in (msecs)
+	    'stateHoverAnimation': 100,
+	    
+	    // What to do on a click event
+	    'click' : function(event, data) {
+	     	$('#clicked-state').text('Clicked '+data.fullName+' on map');
+	    },
+
+	 });
+	});
+	</script>
+
+</head>
+  <body>
+  	<div>
+      <div id="clicked-state">Nothing clicked yet</div>
+    </div>
+    <div id="tooltip"></div>
+    <div id="map" style="width: 1000px; height: 630px; border: solid 3px teal"></div>
+  </body>
+</html>
